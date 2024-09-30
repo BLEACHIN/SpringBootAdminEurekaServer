@@ -1,0 +1,55 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: spcloud-eureka-server-spboot-admin-8761
+  # 结合 Spring Security 实现需要用户名和密码登录的安全认证
+  security:
+    user:
+      name: "admin"
+      password: "admin"
+  # 设置springboot admin的信息，没啥用
+#  boot:
+#    admin:
+#      context-path: /admin # admin界面与eureka分离
+
+eureka:
+  dashboard:
+    # 禁用eureka服务控制台，整合springboot admin关键配置，否则会影响springboot admin首页的访问
+    enabled: false
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      # defaultZone: http://admin:admin@localhost:8761/eureka/
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+    # 获取注册信息，这里因为admin需要获取所以设置为true
+    # （启动的时候会报错，没关系，后面eureka server启动后就不会报错）
+    fetch-registry: true
+    # 单实例情况不需要相互注册，这里因为admin端需要被发现所以注册上
+    register-with-eureka: true
+    # 获取注册信息时间间隔，单位为秒
+    registryFetchIntervalSeconds: 5
+  instance:
+    hostname: localhost
+    # 显示访问路径的 ip 地址
+    prefer-ip-address: true
+    # 向注册中心发送心跳时间间隔，单位为秒
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+
+# 与Spring Boot 2一样，默认情况下，大多数actuator的端口都不会通过http公开
+# * 代表公开所有这些端点。对于生产环境，应该仔细选择要公开的端点
+# 暴露所有端点信息，不然在页面中无法查看监控数据
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/spcloud-eureka-server-spboot-admin/pom.xml" />
+        <option value="$PROJECT_DIR$/spcloud-eureka-spboot-admin-8761/pom.xml" />
       </list>
     </option>
   </component>

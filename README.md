@@ -1,9 +1,9 @@
-# 将Spring Boot Admin和Eureka Server集成在同一个服务上
-网上大部分整合spring boot admin的例子都是Eureka Server一个注册中心服务，
-Spring Boot Admin作为另一个服务注册到Eureka Server。
+# 将Spring Boot Admin和Eureka Server整合到同一个服务上
+网上整合Spring Boot Admin的例子大部分都是Eureka Server注册中心一个服务，
+Spring Boot Admin作为另一个服务注册到Eureka Server上。
 
-现在展示如何将Spring Boot Admin和Eureka Server集成在同一个服务上，步骤如下：
-1. 新建spcloud-eureka-spboot-admin-7001模块，新增pom.xml。
+现在展示如何将Spring Boot Admin和Eureka Server整合到同一个服务上，步骤如下：
+1. 新建spcloud-eureka-spboot-admin-8761模块，新增pom.xml。
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -95,14 +95,14 @@ Spring Boot Admin作为另一个服务注册到Eureka Server。
 ```
 
 2. 新增application.yml。
-   重点是eureka.dashboard.enabled设置为false，避免影响到springboot admin首页的访问。
+   重点是**eureka.dashboard.enabled设置为false**，避免影响到springboot admin首页的访问。
 ```
 server:
-  port: 7001
+  port: 8761
 
 spring:
   application:
-    name: micro-service-cloud-eureka-spboot-admin-7001
+    name: spcloud-eureka-server-spboot-admin-8761
   # 结合 Spring Security 实现需要用户名和密码登录的安全认证
   security:
     user:
@@ -223,21 +223,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-4. 新增启动类，加上@EnableEurekaServer服务注册中心注解、admin服务注解，此处不用加@EnableDiscoveryClient‌，加入eureka client依赖会自动开启服务注册。
+4. 新增启动类，加上@EnableEurekaServer服务注册中心注解、@EnableAdminServer admin服务注解，此处不用加@EnableDiscoveryClient‌，加入eureka client依赖会自动开启服务注册。
 ```
 @SpringBootApplication
 @EnableEurekaServer
 @EnableAdminServer
-public class SpCloudEurekaSpbootAdmin7001Application {
+public class SpcloudEurekaSpbootAdmin8761Application {
 	public static void main(String[] args) {
-		SpringApplication.run(SpCloudEurekaSpbootAdmin7001Application.class, args);
+		SpringApplication.run(SpcloudEurekaSpbootAdmin8761Application.class, args);
 	}
 }
 ```
 
 5. 测试验证。
-   浏览器访问：http://localhost:7001/login
+   启动。
+   浏览器访问：http://localhost:8761/login
    账号密码：
    admin
    admin
-   登录后，界面会跳转到：http://localhost:7001/applications
+   登录后，界面会跳转到：http://localhost:8761/applications
+   界面如下：
+   ![image](https://github.com/user-attachments/assets/d971d524-ce9c-494a-a6e1-15ef31689a5a)
+

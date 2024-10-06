@@ -20,6 +20,11 @@ Spring Boot Admin作为另一个服务注册到Eureka Server上。
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<java.version>1.8</java.version>
 		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
 		<spring-cloud.version>Hoxton.SR12</spring-cloud.version>

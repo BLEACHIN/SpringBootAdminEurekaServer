@@ -15,7 +15,7 @@ Spring Boot Admin作为另一个服务注册到Eureka Server上。
 		<version>2.3.6.RELEASE</version>
 	</parent>
 
-	<groupId>org.hacker-and-painter</groupId>
+	<groupId>com.bleachin</groupId>
 	<artifactId>spcloud-eureka-spboot-admin-8761</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
